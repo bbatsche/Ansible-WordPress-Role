@@ -4,6 +4,9 @@
     src: https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz
     dest: "{{ http_root }}/{{ domain }}"
     copy: no
+    owner: "{{ ansible_ssh_user }}"
+    group: www-data
+    mode:  u=rwX,go=rXs
     creates: "{{ http_root }}/{{ domain }}/public/index.php" # little cheat
 
 - name: Install
