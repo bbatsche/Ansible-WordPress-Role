@@ -5,7 +5,7 @@ dist: trusty
 language: generic
 
 env:
-  - ANSIBLE_VERSION="1.9"
+  - ANSIBLE_VERSION="1.9" # I have a feeling this is going to break, but let's try it for now...
   - ANSIBLE_VERSION="2.0"
 
 before_install:
@@ -13,6 +13,10 @@ before_install:
   - sudo apt-get install -qq python-apt python-pycurl
 install:
   - sudo pip install "ansible~=$ANSIBLE_VERSION"
+  - sudo ansible-galaxy install bbatsche.MySQL-Install
+  - sudo ansible-galaxy install bbatsche.MySQL-Manage
+  - sudo ansible-galaxy install bbatsche.Nginx
+  - sudo ansible-galaxy install bbatsche.Codeup-PHP
 script:
   - echo localhost > inventory
 
