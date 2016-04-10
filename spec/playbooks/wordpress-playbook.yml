@@ -1,0 +1,20 @@
+---
+- hosts: all
+
+  vars:
+    db_name:     wordpress_db
+    new_db_user: wordress_user
+    new_db_pass: password
+    domain:      wordpress.dev
+    storage_dir: "../../storage"
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  roles:
+    - role: bbatsche.MySQL-Manage
+    - role: bbatsche.Codeup-PHP
+      dynamic_php: yes
+
+  tasks:
+    - include: ../../tasks/main.yml
