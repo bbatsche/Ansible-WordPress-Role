@@ -1,32 +1,50 @@
-Role Name
-=========
+Ansible WordPress Role
+======================
 
-A brief description of the role goes here.
+[![Build Status](https://travis-ci.org/bbatsche/Ansible-WordPress-Role.svg?branch=master)](https://travis-ci.org/bbatsche/Ansible-WordPress-Role)
 
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role will download WordPress and automatically configure it to connect to a local MySQL database. It will also configure the required cryptographic keys and salts to make sure your WordPress site is secure.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- `wordpress_version` &mdash; Version of WordPress to download. Default: 4.4.2
+- `domain` &mdash; Site domain to install WordPress under
+- `db_name` &mdash; MySQL database to use for WordPress
+- `new_db_user` &mdash; MySQL user WordPress will use to connect
+- `new_db_pass` &mdash; Password for MySQL user
+- `storage_dir` &mdash; Cryptographic keys are generated using the Ansible password lookup utility. Those keys will be stored under this directory on the *local* computer
+- `http_root` &mdash; Location to store files for sites. Default: /srv/http
+- `php_version` &mdash; Optional variable used if a custom version of PHP is required. If specified, this role will use [`bbatsche.Phpenv`](https://galaxy.ansible.com/bbatsche/Phpenv/). If this is omitted, the OS default version of PHP will be installed by [`bbatsche.Codeup-PHP`](https://galaxy.ansible.com/bbatsche/Codeup-PHP/)
+
+_**Note:** The dependencies for this role have multiple other variables that they require as well! Pay attention to the documentation for the other required roles._
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+This role depends on [`bbatsche.MySQL-Manage`](https://galaxy.ansible.com/bbatsche/MySQL-Manage/) and [`bbatsche.Phpenv`](https://galaxy.ansible.com/bbatsche/Phpenv/) or [`bbatsche.Codeup-PHP`](https://galaxy.ansible.com/bbatsche/Codeup-PHP/). Those roles in turn require [`bbatsche.MySQL-Install`](https://galaxy.ansible.com/bbatsche/MySQL-Install/) and [`bbatsche.Nginx`](https://galaxy.ansible.com/bbatsche/Nginx/). These must be installed before using this role.
+
+```bash
+ansible-galaxy install bbatsche.Phpenv
+# OR
+ansible-galaxy install bbatsche.Codeup-PHP
+
+ansible-galaxy install bbatsche.Nginx
+ansible-galaxy install bbatsche.MySQL-Install
+ansible-galaxy install bbatsche.MySQL-Manage
+```
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
 ```yml
 - hosts: servers
   roles:
-     - { role: bbatsche.rolename, x: 42 }
+  - role: bbatsche.WordPress
+    domain: my-blog.com
+    db_name: wordpress_db
+    new_db_user: wordpress_user
+    new_db_pass: super_secure_password
 ```
 
 License
@@ -61,8 +79,3 @@ There are several rake tasks for interacting with the test environment, includin
 - `rake vagrant[cmd]` &mdash; Run some arbitrary Vagrant command in the test environment. For example, to log in to the test environment run: `rake vagrant[ssh]`
 
 These specs are **not** meant to test for idempotence. They are meant to check that the specified tasks perform their expected steps. Idempotency can be tested independently as a form of integration testing.
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
