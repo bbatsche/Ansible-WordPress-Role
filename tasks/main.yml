@@ -1,2 +1,44 @@
 ---
-# tasks
+- name: Download
+  unarchive:
+    src: https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz
+    dest: "{{ http_root }}/{{ domain }}"
+    copy: no
+    creates: "{{ http_root }}/{{ domain }}/public/index.php" # little cheat
+
+- name: Install
+  command: mv -T {{ http_root }}/{{ domain }}/wordpress {{ http_root }}/{{ domain }}/public
+  args:
+    creates: "{{ http_root }}/{{ domain }}/public/index.php"
+
+- name: Create Config
+  command: >
+    mv {{ http_root }}/{{ domain }}/public/wp-config-sample.php {{ http_root }}/{{ domain }}/public/wp-config.php
+  args:
+    creates: "{{ http_root }}/{{ domain }}/public/wp-config.php"
+
+- name: Set Database Parameters
+  lineinfile:
+    dest: "{{ http_root }}/{{ domain }}/public/wp-config.php"
+    line: "define('{{ item.key }}', '{{ item.value }}');"
+    regexp: "define\\('{{ item.key }}',\\s*'.+'\\);"
+  with_dict:
+    DB_NAME: "{{ db_name }}"
+    DB_USER: "{{ new_db_user }}"
+    DB_PASSWORD: "{{ new_db_pass }}"
+
+- name: Set Auth Keys and Salts
+  lineinfile:
+    dest: "{{ http_root }}/{{ domain }}/public/wp-config.php"
+    line: >
+      define('{{ item }}', '{{ lookup('password', storage_dir + '/' + ansible_hostname + '/' + item + ' length=64') }}');
+    regexp: "define\\('{{ item }}',\\s*'.+'\\);"
+  with_items:
+    - AUTH_KEY
+    - SECURE_AUTH_KEY
+    - LOGGED_IN_KEY
+    - NONCE_KEY
+    - AUTH_SALT
+    - SECURE_AUTH_SALT
+    - LOGGED_IN_SALT
+    - NONCE_SALT
