@@ -34,7 +34,8 @@
   lineinfile:
     dest: "{{ http_root }}/{{ domain }}/public/wp-config.php"
     line: >
-      define('{{ item }}', '{{ lookup('password', storage_dir + '/' + ansible_hostname + '/' + item + ' length=64') }}');
+      define('{{ item }}',
+      '{{ lookup('password', storage_dir + '/' + ansible_hostname + '/' + domain + '/' + item + ' length=64') }}');
     regexp: "define\\('{{ item }}',\\s*'.+'\\);"
   with_items:
     - AUTH_KEY
