@@ -8,7 +8,7 @@ This role will download WordPress and automatically configure it to connect to a
 Role Variables
 --------------
 
-- `wordpress_version` &mdash; Version of WordPress to download. Default: 4.4.2
+- `wordpress_version` &mdash; Version of WordPress to download. Default: 4.5.1
 - `domain` &mdash; Site domain to install WordPress under
 - `db_name` &mdash; MySQL database to use for WordPress
 - `new_db_user` &mdash; MySQL user WordPress will use to connect
