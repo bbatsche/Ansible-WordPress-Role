@@ -12,9 +12,12 @@
 
   vars_files:
     - defaults/main.yml
+
   roles:
+    - role: bbatsche.Base
     - role: bbatsche.MySQL-Manage
     - role: bbatsche.Codeup-PHP
       dynamic_php: yes
+
   tasks:
     - include: tasks/main.yml
