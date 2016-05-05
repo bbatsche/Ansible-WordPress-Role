@@ -5,6 +5,11 @@ Ansible WordPress Role
 
 This role will download WordPress and automatically configure it to connect to a local MySQL database. It will also configure the required cryptographic keys and salts to make sure your WordPress site is secure.
 
+Requirements
+------------
+
+This role takes advantage of Linux filesystem ACLs and a group called "web-admin" for granting access to particular directories. You can either configure those steps manually or install the [`bbatsche.Base`](https://galaxy.ansible.com/bbatsche/Base/) role.
+
 Role Variables
 --------------
 
