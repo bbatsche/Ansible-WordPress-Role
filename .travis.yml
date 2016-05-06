@@ -23,7 +23,7 @@ script:
   - ansible-playbook -i inventory travis-playbook.yml --syntax-check
 
   # Play test
-  - travis_wait ansible-playbook -i inventory travis-playbook.yml --connection=local
+  - travis_wait 40 ansible-playbook -i inventory travis-playbook.yml --connection=local
 
   # Idempotence test
   - >
