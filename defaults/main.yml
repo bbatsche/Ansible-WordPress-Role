@@ -1,2 +1,4 @@
 ---
 wordpress_version: 4.5.1
+
+db_host: 127.0.0.1

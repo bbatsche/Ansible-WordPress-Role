@@ -29,6 +29,7 @@
     DB_NAME: "{{ db_name }}"
     DB_USER: "{{ new_db_user }}"
     DB_PASSWORD: "{{ new_db_pass }}"
+    DB_HOST: "{{ db_host }}"
 
 - name: Set Auth Keys and Salts
   lineinfile:
