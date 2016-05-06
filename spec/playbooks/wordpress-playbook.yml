@@ -13,8 +13,10 @@
 
   roles:
     - role: bbatsche.MySQL-Manage
-    - role: bbatsche.Codeup-PHP
+    - role: bbatsche.Phpenv
       dynamic_php: yes
+      php_version: 7.0.6
+      pecl_extensions: []
 
   tasks:
     - include: ../../tasks/main.yml
