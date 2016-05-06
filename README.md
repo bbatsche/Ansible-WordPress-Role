@@ -8,7 +8,7 @@ This role will download WordPress and automatically configure it to connect to a
 Requirements
 ------------
 
-This role takes advantage of Linux filesystem ACLs and a group called "web-admin" for granting access to particular directories. You can either configure those steps manually or install the [`bbatsche.Base`](https://galaxy.ansible.com/bbatsche/Base/) role.
+This role assumes you already have PHP installed and properly configured. It can be used in conjunction with [`bbatsche.Phpenv`](https://galaxy.ansible.com/bbatsche/Phpenv/) seamlessly, but it is not an explicit dependency.
 
 Role Variables
 --------------
@@ -16,25 +16,20 @@ Role Variables
 - `wordpress_version` &mdash; Version of WordPress to download. Default: 4.5.1
 - `domain` &mdash; Site domain to install WordPress under
 - `db_name` &mdash; MySQL database to use for WordPress
+- `db_host` &mdash; MySQL server to connect to. Default: "127.0.0.1"
 - `new_db_user` &mdash; MySQL user WordPress will use to connect
 - `new_db_pass` &mdash; Password for MySQL user
 - `storage_dir` &mdash; Cryptographic keys are generated using the Ansible password lookup utility. Those keys will be stored under this directory on the *local* computer
 - `http_root` &mdash; Location to store files for sites. Default: /srv/http
-- `php_version` &mdash; Optional variable used if a custom version of PHP is required. If specified, this role will use [`bbatsche.Phpenv`](https://galaxy.ansible.com/bbatsche/Phpenv/). If this is omitted, the OS default version of PHP will be installed by [`bbatsche.Codeup-PHP`](https://galaxy.ansible.com/bbatsche/Codeup-PHP/)
 
 _**Note:** The dependencies for this role have multiple other variables that they require as well! Pay attention to the documentation for the other required roles._
 
 Dependencies
 ------------
 
-This role depends on [`bbatsche.MySQL-Manage`](https://galaxy.ansible.com/bbatsche/MySQL-Manage/) and [`bbatsche.Phpenv`](https://galaxy.ansible.com/bbatsche/Phpenv/) or [`bbatsche.Codeup-PHP`](https://galaxy.ansible.com/bbatsche/Codeup-PHP/). Those roles in turn require [`bbatsche.MySQL-Install`](https://galaxy.ansible.com/bbatsche/MySQL-Install/) and [`bbatsche.Nginx`](https://galaxy.ansible.com/bbatsche/Nginx/). These must be installed before using this role.
+This role depends on [`bbatsche.MySQL-Manage`](https://galaxy.ansible.com/bbatsche/MySQL-Manage/), which in turn requires [`bbatsche.MySQL-Install`](https://galaxy.ansible.com/bbatsche/MySQL-Install/). These must be installed before using this role.
 
 ```bash
-ansible-galaxy install bbatsche.Phpenv
-# OR
-ansible-galaxy install bbatsche.Codeup-PHP
-
-ansible-galaxy install bbatsche.Nginx
 ansible-galaxy install bbatsche.MySQL-Install
 ansible-galaxy install bbatsche.MySQL-Manage
 ```

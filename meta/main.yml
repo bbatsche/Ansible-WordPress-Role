@@ -19,13 +19,3 @@ galaxy_info:
     - cms
 dependencies:
   - bbatsche.MySQL-Manage
-
-    # Explicitly require Nginx, otherwise it may be skipped based on php_version
-  - role: bbatsche.Nginx
-    dynamic_php: yes
-
-  - role: bbatsche.Phpenv
-    when: php_version is defined
-  - role: bbatsche.Codeup-PHP
-    when: php_version is not defined
-
