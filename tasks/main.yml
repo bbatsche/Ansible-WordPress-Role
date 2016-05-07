@@ -1,14 +1,18 @@
 ---
 - name: Download
+  get_url:
+    url:  https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz
+    dest: /tmp/wordpress-{{ wordpress_version }}.tar.gz
+
+- name: Extract
   unarchive:
-    src: https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz
-    dest: "{{ http_root }}/{{ domain }}"
+    src:  /tmp/wordpress-{{ wordpress_version }}.tar.gz
+    dest: /tmp
     copy: no
-    mode:  u=rwX,g=rwXs,o=rX
-    creates: "{{ http_root }}/{{ domain }}/public/index.php" # little cheat
+    creates: /tmp/wordpress
 
 - name: Install
-  command: mv -T {{ http_root }}/{{ domain }}/wordpress {{ http_root }}/{{ domain }}/public
+  shell: cp -R /tmp/wordpress/* {{ http_root }}/{{ domain }}/public
   args:
     creates: "{{ http_root }}/{{ domain }}/public/index.php"
 
