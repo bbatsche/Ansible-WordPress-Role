@@ -19,3 +19,4 @@ galaxy_info:
     - cms
 dependencies:
   - bbatsche.MySQL-Manage
+  - bbatsche.PHP
